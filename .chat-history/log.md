@@ -20,6 +20,12 @@
 
 ---
 - timestamp: "2026-07-14"
+- user_prompt: "Create a bugfix branch and push the new changes. (Mid-task, user reported pipeline still failing: node:15 container -> Node 24 glibc/CXXABI error in act/runner.)"
+- assistant_response_summary: "Diagnosed the container failure: an old node:15 job container ships glibc too old for the runner's bundled Node 24 (used to exec JS actions), breaking checkout/cache. Replaced 'container: node:15' in the test job with actions/setup-node@v3 node 15 (same version isolation, no glibc clash). Validated YAML. Created branch bugfix/ci-pipeline-fixes, squashed all changes into one commit 37d4637. Push to origin (kim-bugz) blocked: authenticated account Joakim-animate90 lacks write access (https no creds / ssh permission denied). User chose fork route: gh repo fork, added ssh 'fork' remote, force-with-lease pushed the corrected squashed branch to Joakim-animate90/assessment-cc-agentic-devops-2 (overwrote an older pre-fix copy). Offered to open PR to parent."
+- files_affected: ".github/workflows/ci.yaml (test job container->setup-node), .chat-history/log.md"
+
+---
+- timestamp: "2026-07-14"
 - user_prompt: "Restated CI summary and asked to also add triggers."
 - assistant_response_summary: "Updated ci.yaml 'on:' block: push branches now main, devel, stage, feature/**, bugfix/**; pull_request now main, devel, stage. Reminded user the other summary bullets (build needs [lint,test], npm install in every job, --watchAll=false, build cache-key bug) remain unapplied."
 - files_affected: ".github/workflows/ci.yaml, .chat-history/log.md"
